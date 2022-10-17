@@ -1,18 +1,27 @@
  Data Input Tab
  ------------------------------
-
+Expenses:
  1. Date Will be automatically extracted from system.
  2. ADD option where new input will be visible
  3. After Done Adding A preview will be shown for comfermation
- 4. Pressing Coonfimation Button, Data will be stored into a excel sheet
+ 4. Pressing Confimation Button, Data will be stored into a excel sheet
  5. Current Excel Sheet will be shown somewhere in layout.
 
+Incomes:
+  1. Add Bank Balance Option
+  2. Add Cashout Option
+  3. Another Excel Sheet for Incomes
+
+Hidden Budget Input:
+ 1. Add Budget for Selected Luxury Products
+ 2. Another Excel Sheet for Budget
 
  Analysis Tab 2 -- MTD and Previous Month
  -------------------------------------------
- 1. Expense Till now
- 2. Available Balance in Bank A/C
- 3. Available Balance in Cash
+ 1. Expense Till now - Card
+ 2. Available Balance in Bank A/C - Card
+ 3. Available Balance in Cash - Card
+ 4. Others Credits - Card
  4. Top Spending Sector
  5. Top Spending Product
  6. Top Spendig Product with Sector filter
@@ -28,4 +37,5 @@
  1. Home Rent
  2. Electricity Bill
  3. Khala Bill
- 4. Parking
+ 4. Parking Bill
+ 5. Internet Bill
