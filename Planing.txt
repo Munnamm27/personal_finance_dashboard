@@ -1,0 +1,31 @@
+ Data Input Tab
+ ------------------------------
+
+ 1. Date Will be automatically extracted from system.
+ 2. ADD option where new input will be visible
+ 3. After Done Adding A preview will be shown for comfermation
+ 4. Pressing Coonfimation Button, Data will be stored into a excel sheet
+ 5. Current Excel Sheet will be shown somewhere in layout.
+
+
+ Analysis Tab 2 -- MTD and Previous Month
+ -------------------------------------------
+ 1. Expense Till now
+ 2. Available Balance in Bank A/C
+ 3. Available Balance in Cash
+ 4. Top Spending Sector
+ 5. Top Spending Product
+ 6. Top Spendig Product with Sector filter
+ 7. Daily Spending Trend
+
+
+ Budget Alert
+ --------------------------
+ Set Budget for Luxury Product and Compare with Bar Chart --- Alart with Red Marked messege.
+
+ Rent Paying Status:
+ -------------------------------------------
+ 1. Home Rent
+ 2. Electricity Bill
+ 3. Khala Bill
+ 4. Parking
