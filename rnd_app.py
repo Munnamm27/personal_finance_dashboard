@@ -41,13 +41,13 @@ def get_tbl(data):
 
 app = dash.Dash(
     __name__,
-    external_stylesheets=[dbc.themes.LITERA],
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
     meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1.0"}
     ],
 )
 
-header = dbc.Row(html.H1("Header", className="text-center text-bold", style=stl.header))
+header = dbc.Row(html.H1("Header", style=stl.header))
 
 
 expense_col = dbc.Col(
@@ -232,7 +232,7 @@ app.layout = dbc.Container(
 )
 
 
-# Expnese Tab Callback ##
+# Expnese-Income Tab Callback ##
 
 
 @app.callback(

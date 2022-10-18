@@ -9,7 +9,7 @@ btn = {
 }
 
 
-text = {"textAlign": "center"}
+text = {"textAlign": "center",'fontWeight':'bold'}
 
 section = {
     "border": "1px black solid",
@@ -36,6 +36,8 @@ header = {
     "backgroundColor": "#1ecbe1",
     "border-radius": "5px",
     "border": "2px solid black",
+    'textAlign':'center',
+    'fontWeight':'bold'
 }
 
 fig={
