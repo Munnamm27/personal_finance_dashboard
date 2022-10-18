@@ -14,6 +14,7 @@ df = pd.read_excel("expense.xlsx")
 df_income=pd.read_excel('income.xlsx')
 final_inp = pd.DataFrame()
 date = date.today()
+final_inp_e = pd.DataFrame()
 
 
 def get_tbl(data):
@@ -88,7 +89,7 @@ income_col = dbc.Col(
         html.H3("Income Section"),
         html.H6("Account"),
         dcc.Dropdown(
-            id="acc",
+            id="account",
             options=["IBBL-1", "IBBL-2", "SCB", "Cash Out"],
             placeholder="Select Account",
             style=stl.inp,
@@ -102,14 +103,14 @@ income_col = dbc.Col(
         ),
         html.H6("Amount"),
         dcc.Input(
-            id="ibbl_2", type="number", placeholder="Enter Amount", style=stl.inp
+            id="amount", type="number", placeholder="Enter Amount", style=stl.inp
         ),
         dbc.Row(
             [
                 dbc.Col(dbc.Button("Add", id="add-e", n_clicks=0)),
                 dbc.Col(
                     dbc.Button(
-                        "Remove", id="remove_last-e", n_clicks=0, className="btn-danger"
+                        "Remove", id="remove-e", n_clicks=0, className="btn-danger"
                     )
                 ),
                 dbc.Col(
@@ -243,10 +244,18 @@ app.layout = dbc.Container(
     Input("category", "value"),
     Input("product", "value"),
     Input("price", "value"),
+    Input("add-e", "n_clicks"),
+    Input("remove-e", "n_clicks"),
+    Input("submit-e", "n_clicks"),
+    Input("account", "value"),
+    Input("source", "value"),
+    Input("amount", "value"),
 )
-def write(add, remove, submit, cat, prod, price):
+def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,amm):
     global df
     global final_inp
+    global df_income
+    global final_inp_e
 
     if "add-i" == ctx.triggered_id:
         ins_data = pd.DataFrame(
@@ -284,65 +293,47 @@ def write(add, remove, submit, cat, prod, price):
                 className="text-center bg-success text-light border-round mt-2 text-bold",
             ),
         ]
+
+    elif "add-e" == ctx.triggered_id:
+        ins_data_e = pd.DataFrame(
+            [[date, acc, src, amm]], columns=["date", "account", "source", "amount"]
+        )
+        final_inp_e = pd.concat([final_inp_e, ins_data_e]).reset_index(drop=True)
+        return [
+            get_tbl(final_inp_e),
+            html.H6(
+                "Record Added",
+                className="text-center bg-primary text-light border-round mt-2 text-bold",
+            ),
+        ]
+
+    elif "remove-e" == ctx.triggered_id:
+        final_inp_e = final_inp_e[:-1]
+        final_inp_e
+        return [
+            get_tbl(final_inp_e),
+            html.H6(
+                "Record Removed",
+                className="text-center bg-danger text-light border-round mt-2 text-bold",
+            ),
+        ]
+
+    elif "submit-e" == ctx.triggered_id:
+        df_income = pd.concat([df_income, final_inp_e]).reset_index(drop=True)
+        df_income.to_excel("income.xlsx", index=False)
+        temp_df_e=final_inp_e
+        final_inp_e = pd.DataFrame()
+        return [
+            get_tbl(temp_df_e),
+            html.H4(
+                "Record Submitted",
+                className="text-center bg-success text-light border-round mt-2 text-bold",
+            ),
+        ]
     else:
         raise PreventUpdate
 
 
-
-
-
-# @app.callback(
-#     Output("input-tbl", "children"),
-#     # Output('expns-tbl',"children"),
-#     Input("add-i", "n_clicks"),
-#     Input("remove-i", "n_clicks"),
-#     Input("submit-i", "n_clicks"),
-#     Input("category", "value"),
-#     Input("product", "value"),
-#     Input("price", "value"),
-# )
-# def write(add, remove, submit, cat, prod, price):
-#     global df_income
-#     global final_inp
-
-#     if "add-e" == ctx.triggered_id:
-#         ins_data = pd.DataFrame(
-#             [[date, cat, prod, price]], columns=["date", "category", "product", "cost"]
-#         )
-#         final_inp = pd.concat([final_inp, ins_data]).reset_index(drop=True)
-#         return [
-#             get_tbl(final_inp),
-#             html.H6(
-#                 "Record Added",
-#                 className="text-center bg-primary text-light border-round mt-2 text-bold",
-#             ),
-#         ]
-
-#     elif "remove-e" == ctx.triggered_id:
-#         final_inp = final_inp[:-1]
-#         final_inp
-#         return [
-#             get_tbl(final_inp),
-#             html.H6(
-#                 "Record Removed",
-#                 className="text-center bg-danger text-light border-round mt-2 text-bold",
-#             ),
-#         ]
-
-#     elif "submit-e" == ctx.triggered_id:
-#         df_income = pd.concat([df_income, final_inp]).reset_index(drop=True)
-#         df_income.to_excel("income.xlsx", index=False)
-#         temp_df=final_inp
-#         final_inp = pd.DataFrame()
-#         return [
-#             get_tbl(temp_df),
-#             html.H4(
-#                 "Record Submitted",
-#                 className="text-center bg-success text-light border-round mt-2 text-bold",
-#             ),
-#         ]
-#     else:
-#         raise PreventUpdate
 
 ########## Original Expense Table Preveiw ################
 
