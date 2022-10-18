@@ -226,11 +226,9 @@ app.layout = dbc.Container(
         header,
         dbc.Tabs( 
             [ 
-                dbc.Tab(input_tab,label="Input Panel"),
+                dbc.Tab(input_tab,label="Input Panel",active_label_style={"backgroundColor": "#ffe9fb",'fontWeight':'bold','color':'black'}),
                 dbc.Tab(html.Div(html.H3("Empty")),label="Analysis"),
-            ],    style={
-                "backgroundColor": "#ffe9fb",
-                    },
+            ],    
         )
 
     ],
@@ -363,6 +361,8 @@ def main_df(a):
 )
 def main_df(a):
     return get_tbl(df_income.sort_index(ascending=False))
+
+
 
 if __name__ == "__main__":
     app.run_server(debug=True, port=8000)
