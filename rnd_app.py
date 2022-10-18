@@ -195,11 +195,11 @@ preview_col = dbc.Col(
                 dbc.Col([
                     html.H6("Expense Table",className='text-center'),
                     html.Div(id='expense-tbl'),
-                        ], md=7),
+                        ], md=6),
                 dbc.Col([
                     html.H6("Income Table",className='text-center'),
                     html.Div(id='income-tbl'),
-                        ], md=5),
+                        ], md=6),
             ],
             style=stl.section
         ),
@@ -208,10 +208,8 @@ preview_col = dbc.Col(
 )
 
 
-app.layout = dbc.Container(
-    [
-        header,
-        dbc.Row(
+
+input_tab= dbc.Row(
             [
                 dbc.Col(
                     [expense_col, income_col, budget_col],
@@ -221,9 +219,22 @@ app.layout = dbc.Container(
             ],
             align="left",
             justify="center",
-        ),
+        )
+
+app.layout = dbc.Container(
+    [
+        header,
+        dbc.Tabs( 
+            [ 
+                dbc.Tab(input_tab,label="Input Panel"),
+                dbc.Tab(html.Div(html.H3("Empty")),label="Analysis"),
+            ],    style={
+                "backgroundColor": "#ffe9fb",
+                    },
+        )
+
     ],
-    fluid=True,
+    fluid=False,
     style={
         "backgroundColor": "#ffe9fb",
         "border": "3px black solid",
