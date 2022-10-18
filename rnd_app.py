@@ -11,9 +11,11 @@ import style as stl
 from dash.exceptions import PreventUpdate
 
 df = pd.read_excel("expense.xlsx")
+df['date']=df['date'].apply(lambda x: str(x.date()))
 df_income=pd.read_excel('income.xlsx')
+df_income['date']=df_income['date'].apply(lambda x: str(x.date()))
 final_inp = pd.DataFrame()
-date = date.today()
+date_ = date.today()
 final_inp_e = pd.DataFrame()
 
 
@@ -268,7 +270,7 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
 
     if "add-i" == ctx.triggered_id:
         ins_data = pd.DataFrame(
-            [[date, cat, prod, price]], columns=["date", "category", "product", "cost"]
+            [[date_, cat, prod, price]], columns=["date", "category", "product", "cost"]
         )
         final_inp = pd.concat([final_inp, ins_data]).reset_index(drop=True)
         return [
@@ -305,7 +307,7 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
 
     elif "add-e" == ctx.triggered_id:
         ins_data_e = pd.DataFrame(
-            [[date, acc, src, amm]], columns=["date", "account", "source", "amount"]
+            [[date_, acc, src, amm]], columns=["date", "account", "source", "amount"]
         )
         final_inp_e = pd.concat([final_inp_e, ins_data_e]).reset_index(drop=True)
         return [
