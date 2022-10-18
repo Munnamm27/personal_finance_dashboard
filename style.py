@@ -21,6 +21,17 @@ section = {
     'opacity':'100%'
 }
 
+sectionh = {
+    "border": "1px black solid",
+    "margin": "10px",
+    "padding": "5px",
+    "border-radius": "10px",
+    "textAlign": "center",
+    "backgroundColor": "#EAF5FF",
+    'opacity':'100%',
+    'height':'400px'
+}
+
 header = {
     "backgroundColor": "#1ecbe1",
     "border-radius": "5px",

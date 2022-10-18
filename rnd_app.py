@@ -1,15 +1,42 @@
 import numpy as np
 import plotly.express as px
 import dash
-from dash import dcc, html, dash_table, callback_context, Input, Output, State
+from dash import dcc, html, dash_table, callback_context, Input, Output, State, ctx
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objs as go
 from datetime import date
 import pandas as pd
 import style as stl
+from dash.exceptions import PreventUpdate
 
-df = pd.read_excel("records.xlsx")
+df = pd.read_excel("expense.xlsx")
+df_income=pd.read_excel('income.xlsx')
+final_inp = pd.DataFrame()
+date = date.today()
+
+
+def get_tbl(data):
+    tbl = dash_table.DataTable(
+        data.to_dict("records"),
+        [{"name": i, "id": i} for i in data.columns],
+        style_data={"color": "black", "backgroundColor": "white", "textAlign": "left"},
+        style_header={
+            "backgroundColor": "#080808",
+            "color": "white",
+            "fontWeight": "bold",
+            "textAlign": "left",
+        },
+        style_table={"overflowY": "scroll",'height':'280px'},
+        style_data_conditional=[
+            {
+                "if": {"row_index": "odd"},
+                "backgroundColor": "#bbbfbf",
+            }
+        ],
+    )
+    return tbl
+
 
 app = dash.Dash(
     __name__,
@@ -40,7 +67,7 @@ expense_col = dbc.Col(
                 dbc.Col(dbc.Button("Add", id="add-i", n_clicks=0)),
                 dbc.Col(
                     dbc.Button(
-                        "Remove", id="remove_last-i", n_clicks=0, className="btn-danger"
+                        "Remove", id="remove-i", n_clicks=0, className="btn-danger"
                     )
                 ),
                 dbc.Col(
@@ -64,6 +91,13 @@ income_col = dbc.Col(
             id="acc",
             options=["IBBL-1", "IBBL-2", "SCB", "Cash Out"],
             placeholder="Select Account",
+            style=stl.inp,
+        ),
+        html.H6("Source"),
+        dcc.Dropdown(
+            id="source",
+            options=["Salary", "Abbu", "Gifts"],
+            placeholder="Select Source",
             style=stl.inp,
         ),
         html.H6("Amount"),
@@ -137,26 +171,40 @@ budget_col = dbc.Col(
 )
 
 preview_col = dbc.Col(
-    [   
-        dbc.Row([
-        html.H4("Input Preview",className='text-center'),
-        dcc.Graph(id="final_tbl",style=stl.fig),
-        html.Label("msg",className='text-center')
-    ],style=stl.section),
-
-    dbc.Row( 
-        [ 
-            html.H4("Data Preview",className='text-center'),
-            dbc.Col(dcc.Graph(id='expns-tbl'),md=6),
-            dbc.Col(dcc.Graph(id='income-tbl'),md=6)
-        ],style=stl.section
-    )
-
+    [
+        dbc.Row(
+            [
+                html.H4("Input Preview", className="text-center"),
+                html.Div(
+                    id="input-tbl",
+                    style={
+                        "textAlign": "center",
+                        "paddingLeft": "100px",
+                        "paddingRight": "100px",
+                    },
+                ),
+            ],
+            align="left",
+            justify="center",
+            style=stl.sectionh,
+        ),
+        dbc.Row(
+            [
+                html.H4("Data Preview", className="text-center"),
+                dbc.Col([
+                    html.H6("Expense Table",className='text-center'),
+                    html.Div(id='expense-tbl'),
+                        ], md=7),
+                dbc.Col([
+                    html.H6("Income Table",className='text-center'),
+                    html.Div(id='income-tbl'),
+                        ], md=5),
+            ],
+            style=stl.section
+        ),
     ],
-    width={"size": 8, "offset": 0, "order": 2}
+    width={"size": 8, "offset": 0, "order": 2},
 )
-
-
 
 
 app.layout = dbc.Container(
@@ -183,17 +231,136 @@ app.layout = dbc.Container(
 )
 
 
+# Expnese Tab Callback ##
+
+
+@app.callback(
+    Output("input-tbl", "children"),
+    # Output('expns-tbl',"children"),
+    Input("add-i", "n_clicks"),
+    Input("remove-i", "n_clicks"),
+    Input("submit-i", "n_clicks"),
+    Input("category", "value"),
+    Input("product", "value"),
+    Input("price", "value"),
+)
+def write(add, remove, submit, cat, prod, price):
+    global df
+    global final_inp
+
+    if "add-i" == ctx.triggered_id:
+        ins_data = pd.DataFrame(
+            [[date, cat, prod, price]], columns=["date", "category", "product", "cost"]
+        )
+        final_inp = pd.concat([final_inp, ins_data]).reset_index(drop=True)
+        return [
+            get_tbl(final_inp),
+            html.H6(
+                "Record Added",
+                className="text-center bg-primary text-light border-round mt-2 text-bold",
+            ),
+        ]
+
+    elif "remove-i" == ctx.triggered_id:
+        final_inp = final_inp[:-1]
+        final_inp
+        return [
+            get_tbl(final_inp),
+            html.H6(
+                "Record Removed",
+                className="text-center bg-danger text-light border-round mt-2 text-bold",
+            ),
+        ]
+
+    elif "submit-i" == ctx.triggered_id:
+        df = pd.concat([df, final_inp]).reset_index(drop=True)
+        df.to_excel("expense.xlsx", index=False)
+        temp_df=final_inp
+        final_inp = pd.DataFrame()
+        return [
+            get_tbl(temp_df),
+            html.H4(
+                "Record Submitted",
+                className="text-center bg-success text-light border-round mt-2 text-bold",
+            ),
+        ]
+    else:
+        raise PreventUpdate
+
+
+
+
+
 # @app.callback(
-#     Output('out','children'),
-#     Input('val_1','value'),
-#     Input('val_2','value')
-
+#     Output("input-tbl", "children"),
+#     # Output('expns-tbl',"children"),
+#     Input("add-i", "n_clicks"),
+#     Input("remove-i", "n_clicks"),
+#     Input("submit-i", "n_clicks"),
+#     Input("category", "value"),
+#     Input("product", "value"),
+#     Input("price", "value"),
 # )
+# def write(add, remove, submit, cat, prod, price):
+#     global df_income
+#     global final_inp
 
-# def write(v1,v2):
+#     if "add-e" == ctx.triggered_id:
+#         ins_data = pd.DataFrame(
+#             [[date, cat, prod, price]], columns=["date", "category", "product", "cost"]
+#         )
+#         final_inp = pd.concat([final_inp, ins_data]).reset_index(drop=True)
+#         return [
+#             get_tbl(final_inp),
+#             html.H6(
+#                 "Record Added",
+#                 className="text-center bg-primary text-light border-round mt-2 text-bold",
+#             ),
+#         ]
 
-#     return html.H4("excel created")
+#     elif "remove-e" == ctx.triggered_id:
+#         final_inp = final_inp[:-1]
+#         final_inp
+#         return [
+#             get_tbl(final_inp),
+#             html.H6(
+#                 "Record Removed",
+#                 className="text-center bg-danger text-light border-round mt-2 text-bold",
+#             ),
+#         ]
 
+#     elif "submit-e" == ctx.triggered_id:
+#         df_income = pd.concat([df_income, final_inp]).reset_index(drop=True)
+#         df_income.to_excel("income.xlsx", index=False)
+#         temp_df=final_inp
+#         final_inp = pd.DataFrame()
+#         return [
+#             get_tbl(temp_df),
+#             html.H4(
+#                 "Record Submitted",
+#                 className="text-center bg-success text-light border-round mt-2 text-bold",
+#             ),
+#         ]
+#     else:
+#         raise PreventUpdate
+
+########## Original Expense Table Preveiw ################
+
+@app.callback(
+    Output('expense-tbl',"children"),
+    Input("submit-i", "n_clicks"),
+)
+def main_df(a):
+    return get_tbl(df.sort_index(ascending=False))
+
+############## Original Income Table Preview ################
+
+@app.callback(
+    Output('income-tbl',"children"),
+    Input("submit-e", "n_clicks"),
+)
+def main_df(a):
+    return get_tbl(df_income.sort_index(ascending=False))
 
 if __name__ == "__main__":
     app.run_server(debug=True, port=8000)
