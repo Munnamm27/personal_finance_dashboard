@@ -1,4 +1,3 @@
-
 import dash
 from dash import dcc, html, dash_table, callback_context, Input, Output, State, ctx
 import dash_bootstrap_components as dbc
@@ -21,7 +20,6 @@ final_inp_e = pd.DataFrame()
 final_inp_b = pd.DataFrame()
 
 
-
 app = dash.Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
@@ -31,13 +29,6 @@ app = dash.Dash(
 )
 
 header = dbc.Row(html.H1("Header", style=stl.header))
-
-
-
-
-
-
-
 
 
 app.layout = dbc.Container(
@@ -54,7 +45,15 @@ app.layout = dbc.Container(
                         "color": "black",
                     },
                 ),
-                dbc.Tab(html.Div(html.H3("Empty")), label="Analysis"),
+                dbc.Tab(
+                    tc.analysis_tab_current,
+                    label="Analysis",
+                    active_label_style={
+                        "backgroundColor": "#ffe9fb",
+                        "fontWeight": "bold",
+                        "color": "black",
+                    },
+                ),
             ],
         ),
     ],
@@ -265,8 +264,6 @@ def toggle_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
-
-
 
 
 if __name__ == "__main__":

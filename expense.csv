@@ -1,13 +1,14 @@
 entry_date,category,product,cost
-2022-10-20,12,12,121
-2022-10-20,Food,Lunch,110
-2022-10-20,Food,Chocolate,70
-2022-10-20,Food,Ice Cream,70
-2022-10-20,Bike,Fuel,120
-2022-10-20,Bike,Servicing,400
-2022-10-20,Transport,Rickshaw,70
-2022-10-20,Cloths,Jersey,2000
-2022-10-20,Bike,12,122
-2022-10-20,Bike,12,122
+2022-10-20,12,12,121.0
+2022-10-20,Food,Lunch,110.0
+2022-10-20,Food,Chocolate,70.0
+2022-10-20,Food,Ice Cream,70.0
+2022-10-20,Bike,Fuel,120.0
+2022-10-20,Bike,Servicing,400.0
+2022-10-20,Transport,Rickshaw,70.0
+2022-10-20,Cloths,Jersey,2000.0
+2022-10-20,Bike,12,122.0
+2022-10-20,Bike,12,122.0
 2022-10-20,Cloths,,
 2022-10-20,Cloths,,
+2022-10-20,Bills,Electricity,500.0

@@ -21,6 +21,16 @@ section = {
     'opacity':'100%'
 }
 
+section_card = {
+    "border": "1px black solid",
+    "margin": "10px",
+    "padding": "5px",
+    "border-radius": "10px",
+    "textAlign": "center",
+    "backgroundColor": "white",
+    'opacity':'100%'
+}
+
 sectionh = {
     "border": "1px black solid",
     "margin": "10px",

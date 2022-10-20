@@ -47,3 +47,39 @@ def get_small_tbl(data):
         ],
     )
     return tbl
+
+
+def get_card(account,ammount,src):
+    card = dbc.Card(
+        [
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.CardImg(
+                            src=src,
+                            className="img-fluid rounded-start",
+                        ),
+                        className="col-md-4",
+                    ),
+                    dbc.Col(
+                        dbc.CardBody(
+                            [
+                                html.H5(f"{account}", className="card-title"),
+                                html.H6(f'{ammount}'+" "+"TK",
+                                    className="card-text",
+                                ),
+                                # html.Small(
+                                #     "Last updated 3 mins ago",
+                                #     className="card-text text-muted",
+                                # ),
+                            ]
+                        ),
+                        className="col-md-8",
+                    ),
+                ],
+                className="g-0 d-flex align-items-center",
+            )
+        ],
+        style={"maxWidth": "200px"},outline=False
+    )
+    return card

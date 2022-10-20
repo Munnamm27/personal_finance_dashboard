@@ -1,3 +1,4 @@
+from click import style
 import numpy as np
 import plotly.express as px
 import dash
@@ -9,6 +10,13 @@ import style as stl
 import dropdown_list as dlist
 import graphs
 import dataloader as dl
+
+
+
+
+########### TAB INPUT ##################################
+
+
 
 expense_col = dbc.Col(
     [
@@ -198,3 +206,23 @@ input_tab = dbc.Row(
     align="left",
     justify="center",
 )
+
+######################################### TAB Vis ###########################################
+
+
+card_row=dbc.Col([
+    html.H4("Balance Status",className='text-center'),
+    dbc.Row( 
+    [   
+        dbc.Col(graphs.get_card("Spent",7000,'assets/dollar.png'),md=2,style=stl.section_card),
+        dbc.Col(graphs.get_card("Available",7000,'assets/tk_logo_1.jpeg'),md=2,style=stl.section_card),
+        dbc.Col(graphs.get_card("Bank A/C",7000,'assets/scb.png'),md=2,style=stl.section_card),
+        dbc.Col(graphs.get_card("Cash",7000,'assets/cash_in_hand.png'),md=2,style=stl.section_card),         
+
+    ],align='center',justify='center'
+)],style=stl.section)
+
+
+
+
+analysis_tab_current=card_row
