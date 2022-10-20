@@ -10,12 +10,10 @@ import pandas as pd
 import style as stl
 from dash.exceptions import PreventUpdate
 
-df = pd.read_excel("expense.xlsx")
-df['date']=df['date'].apply(lambda x: str(x.date()))
-df_income=pd.read_excel('income.xlsx')
-df_income['date']=df_income['date'].apply(lambda x: str(x.date()))
+df = pd.read_csv("expense.csv")
+df_income=pd.read_csv('income.csv')
 final_inp = pd.DataFrame()
-date_ = date.today()
+date_ =date.today()
 final_inp_e = pd.DataFrame()
 
 
@@ -30,7 +28,7 @@ def get_tbl(data):
             "fontWeight": "bold",
             "textAlign": "left",
         },
-        style_table={"overflowY": "scroll",'height':'280px'},
+        style_table={"overflowY": "scroll",'height':'150px'},
         style_data_conditional=[
             {
                 "if": {"row_index": "odd"},
@@ -194,17 +192,18 @@ preview_col = dbc.Col(
         dbc.Row(
             [
                 html.H4("Data Preview", className="text-center"),
-                dbc.Col([
+                
                     html.H6("Expense Table",className='text-center'),
                     html.Div(id='expense-tbl'),
-                        ], md=6),
-                dbc.Col([
+                        
                     html.H6("Income Table",className='text-center'),
                     html.Div(id='income-tbl'),
-                        ], md=6),
+                
             ],
             style=stl.section
         ),
+
+        
     ],
     width={"size": 8, "offset": 0, "order": 2},
 )
@@ -270,7 +269,7 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
 
     if "add-i" == ctx.triggered_id:
         ins_data = pd.DataFrame(
-            [[date_, cat, prod, price]], columns=["date", "category", "product", "cost"]
+            [[date_, cat, prod, price]], columns=["entry_date", "category", "product", "cost"]
         )
         final_inp = pd.concat([final_inp, ins_data]).reset_index(drop=True)
         return [
@@ -294,7 +293,7 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
 
     elif "submit-i" == ctx.triggered_id:
         df = pd.concat([df, final_inp]).reset_index(drop=True)
-        df.to_excel("expense.xlsx", index=False)
+        df.to_csv("expense.csv", index=False)
         temp_df=final_inp
         final_inp = pd.DataFrame()
         return [
@@ -307,7 +306,7 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
 
     elif "add-e" == ctx.triggered_id:
         ins_data_e = pd.DataFrame(
-            [[date_, acc, src, amm]], columns=["date", "account", "source", "amount"]
+            [[date_, acc, src, amm]], columns=["entry_date", "account", "source", "amount"]
         )
         final_inp_e = pd.concat([final_inp_e, ins_data_e]).reset_index(drop=True)
         return [
@@ -331,7 +330,7 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
 
     elif "submit-e" == ctx.triggered_id:
         df_income = pd.concat([df_income, final_inp_e]).reset_index(drop=True)
-        df_income.to_excel("income.xlsx", index=False)
+        df_income.to_csv("income.csv", index=False)
         temp_df_e=final_inp_e
         final_inp_e = pd.DataFrame()
         return [
