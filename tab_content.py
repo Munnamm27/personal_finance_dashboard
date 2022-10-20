@@ -211,13 +211,15 @@ input_tab = dbc.Row(
 
 
 card_row=dbc.Col([
-    html.H4("Balance Status",className='text-center'),
+    html.H6("Balance Status",className='text-center'),
     dbc.Row( 
     [   
         dbc.Col(graphs.get_card("Spent",7000,'assets/dollar.png'),md=2,style=stl.section_card),
         dbc.Col(graphs.get_card("Available",7000,'assets/tk_logo_1.jpeg'),md=2,style=stl.section_card),
-        dbc.Col(graphs.get_card("Bank A/C",7000,'assets/scb.png'),md=2,style=stl.section_card),
+        dbc.Col(graphs.get_card("Bank 1",7000,'assets/scb.png'),md=2,style=stl.section_card),
+        dbc.Col(graphs.get_card("Bank 2",7000,'assets/ibbl.png'),md=2,style=stl.section_card),
         dbc.Col(graphs.get_card("Cash",7000,'assets/cash_in_hand.png'),md=2,style=stl.section_card),         
+
 
     ],align='center',justify='center'
 )],style=stl.section)

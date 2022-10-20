@@ -22,7 +22,7 @@ section = {
 }
 
 section_card = {
-    "border": "1px black solid",
+    "border": "3px black solid",
     "margin": "10px",
     "padding": "5px",
     "border-radius": "10px",
