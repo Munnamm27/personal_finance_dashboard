@@ -1,8 +1,2 @@
-entry_date,category,product,cost
-2022-10-20,12,12,121
-2022-10-20,Food,Lunch,110
-2022-10-20,Food,Chocolate,70
-2022-10-20,Food,Ice Cream,70
-2022-10-20,Bike,Fuel,120
-2022-10-20,Bike,Servicing,400
-2022-10-20,Transport,Rickshaw,70
+section,amount
+11,11

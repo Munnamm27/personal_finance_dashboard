@@ -11,10 +11,13 @@ import style as stl
 from dash.exceptions import PreventUpdate
 
 df = pd.read_csv("expense.csv")
-df_income=pd.read_csv('income.csv')
+df_income = pd.read_csv("income.csv")
+df_budget = pd.read_csv("budget.csv")
 final_inp = pd.DataFrame()
-date_ =date.today()
+date_ = date.today()
 final_inp_e = pd.DataFrame()
+final_inp_b = pd.DataFrame()
+
 
 
 def get_tbl(data):
@@ -28,7 +31,28 @@ def get_tbl(data):
             "fontWeight": "bold",
             "textAlign": "left",
         },
-        style_table={"overflowY": "scroll",'height':'150px'},
+        style_table={"overflowY": "scroll", "height": "150px"},
+        style_data_conditional=[
+            {
+                "if": {"row_index": "odd"},
+                "backgroundColor": "#bbbfbf",
+            }
+        ],
+    )
+    return tbl
+
+def get_small_tbl(data):
+    tbl = dash_table.DataTable(
+        data.to_dict("records"),
+        [{"name": i, "id": i} for i in data.columns],
+        style_data={"color": "black", "backgroundColor": "white", "textAlign": "left"},
+        style_header={
+            "backgroundColor": "#080808",
+            "color": "white",
+            "fontWeight": "bold",
+            "textAlign": "left",
+        },
+        style_table={"overflowY": "scroll", "height": "80px",'width':'400px'},
         style_data_conditional=[
             {
                 "if": {"row_index": "odd"},
@@ -138,7 +162,7 @@ budget_col = dbc.Col(
         ),
         html.H6("Budget amount"),
         dcc.Input(
-            id="budget_amount",
+            id="budget_amm",
             type="number",
             placeholder="Set Budget amount",
             style=stl.inp,
@@ -155,7 +179,7 @@ budget_col = dbc.Col(
                 ),
                 dbc.Col(
                     dbc.Button(
-                        "Remove", id="remove_last-b", n_clicks=0, className="btn-danger"
+                        "Remove", id="remove-b", n_clicks=0, className="btn-danger"
                     )
                 ),
                 dbc.Col(
@@ -169,6 +193,25 @@ budget_col = dbc.Col(
         ),
     ],
     style=stl.section,
+)
+
+budget_preview = dbc.Row(
+    [   
+        dbc.Col(
+        dbc.Button(
+            "See Budgets",
+            id="see-budget-button",
+            className="mb-3",
+            color="primary",
+            n_clicks=0,
+        ),md=2),
+        dbc.Col(
+        dbc.Collapse(
+            html.Div(get_small_tbl(df_budget)),
+            id="budget-preview",
+            is_open=False,
+        ),md=6),
+    ],align='left',justify='center'
 )
 
 preview_col = dbc.Col(
@@ -192,46 +235,56 @@ preview_col = dbc.Col(
         dbc.Row(
             [
                 html.H4("Data Preview", className="text-center"),
-                
-                    html.H6("Expense Table",className='text-center'),
-                    html.Div(id='expense-tbl'),
-                        
-                    html.H6("Income Table",className='text-center'),
-                    html.Div(id='income-tbl'),
-                
+                html.H6("Expense Table", className="text-center"),
+                html.Div(id="expense-tbl"),
+                html.H6("Income Table", className="text-center"),
+                html.Div(id="income-tbl"),
             ],
-            style=stl.section
+            style=stl.section,
         ),
 
-        
+    budget_preview
     ],
     width={"size": 8, "offset": 0, "order": 2},
 )
 
 
 
-input_tab= dbc.Row(
-            [
-                dbc.Col(
-                    [expense_col, income_col, budget_col],
-                    width={"size": 3, "offset": 0, "order": 1},
-                ),
-                preview_col,
-            ],
-            align="left",
-            justify="center",
-        )
+input_tab = dbc.Row(
+    [
+        dbc.Col(
+            [expense_col, income_col, budget_col],
+            width={"size": 3, "offset": 0, "order": 1},
+        ),
+        preview_col,
+        
+    ],
+    align="left",
+    justify="center",
+)
+
+
+
+
+
 
 app.layout = dbc.Container(
     [
         header,
-        dbc.Tabs( 
-            [ 
-                dbc.Tab(input_tab,label="Input Panel",active_label_style={"backgroundColor": "#ffe9fb",'fontWeight':'bold','color':'black'}),
-                dbc.Tab(html.Div(html.H3("Empty")),label="Analysis"),
-            ],    
-        )
-
+        dbc.Tabs(
+            [
+                dbc.Tab(
+                    input_tab,
+                    label="Input Panel",
+                    active_label_style={
+                        "backgroundColor": "#ffe9fb",
+                        "fontWeight": "bold",
+                        "color": "black",
+                    },
+                ),
+                dbc.Tab(html.Div(html.H3("Empty")), label="Analysis"),
+            ],
+        ),
     ],
     fluid=False,
     style={
@@ -260,16 +313,42 @@ app.layout = dbc.Container(
     Input("account", "value"),
     Input("source", "value"),
     Input("amount", "value"),
+    Input("add-b", "n_clicks"),
+    Input("remove-b", "n_clicks"),
+    Input("submit-b", "n_clicks"),
+    Input("budget_cat", "value"),
+    Input("budget_amm", "value"),
 )
-def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,amm):
+def write(
+    add,
+    remove,
+    submit,
+    cat,
+    prod,
+    price,
+    add_2,
+    remove_2,
+    submit_2,
+    acc,
+    src,
+    amm,
+    add_3,
+    remove_3,
+    submit_3,
+    bcat,
+    bamm,
+):
     global df
     global final_inp
     global df_income
     global final_inp_e
+    global df_budget
+    global final_inp_b
 
     if "add-i" == ctx.triggered_id:
         ins_data = pd.DataFrame(
-            [[date_, cat, prod, price]], columns=["entry_date", "category", "product", "cost"]
+            [[date_, cat, prod, price]],
+            columns=["entry_date", "category", "product", "cost"],
         )
         final_inp = pd.concat([final_inp, ins_data]).reset_index(drop=True)
         return [
@@ -294,7 +373,7 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
     elif "submit-i" == ctx.triggered_id:
         df = pd.concat([df, final_inp]).reset_index(drop=True)
         df.to_csv("expense.csv", index=False)
-        temp_df=final_inp
+        temp_df = final_inp
         final_inp = pd.DataFrame()
         return [
             get_tbl(temp_df),
@@ -306,7 +385,8 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
 
     elif "add-e" == ctx.triggered_id:
         ins_data_e = pd.DataFrame(
-            [[date_, acc, src, amm]], columns=["entry_date", "account", "source", "amount"]
+            [[date_, acc, src, amm]],
+            columns=["entry_date", "account", "source", "amount"],
         )
         final_inp_e = pd.concat([final_inp_e, ins_data_e]).reset_index(drop=True)
         return [
@@ -331,7 +411,7 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
     elif "submit-e" == ctx.triggered_id:
         df_income = pd.concat([df_income, final_inp_e]).reset_index(drop=True)
         df_income.to_csv("income.csv", index=False)
-        temp_df_e=final_inp_e
+        temp_df_e = final_inp_e
         final_inp_e = pd.DataFrame()
         return [
             get_tbl(temp_df_e),
@@ -340,28 +420,80 @@ def write(add, remove, submit ,cat, prod,price,add_2,remove_2,submit_2,acc,src,a
                 className="text-center bg-success text-light border-round mt-2 text-bold",
             ),
         ]
+
+    elif "add-b" == ctx.triggered_id:
+        ins_data_b = pd.DataFrame(
+            [[bcat, bamm]],
+            columns=["section", "amount"],
+        )
+        final_inp_e = pd.concat([final_inp_e, ins_data_b]).reset_index(drop=True)
+        return [
+            get_tbl(final_inp_e),
+            html.H6(
+                "Record Added",
+                className="text-center bg-primary text-light border-round mt-2 text-bold",
+            ),
+        ]
+    elif "remove-e" == ctx.triggered_id:
+        ins_data_b = ins_data_b[:-1]
+        ins_data_b
+        return [
+            get_tbl(ins_data_b),
+            html.H6(
+                "Record Removed",
+                className="text-center bg-danger text-light border-round mt-2 text-bold",
+            ),
+        ]
+    elif "submit-b" == ctx.triggered_id:
+        df_budget = pd.concat([df_budget, final_inp_e]).reset_index(drop=True)
+        df_budget.to_csv("budget.csv", index=False)
+        temp_df_b = final_inp_e
+        final_inp_b = pd.DataFrame()
+        return [
+            get_tbl(temp_df_b),
+            html.H4(
+                "Record Submitted",
+                className="text-center bg-success text-light border-round mt-2 text-bold",
+            ),
+        ]
+
     else:
         raise PreventUpdate
 
 
-
 ########## Original Expense Table Preveiw ################
 
+
 @app.callback(
-    Output('expense-tbl',"children"),
+    Output("expense-tbl", "children"),
     Input("submit-i", "n_clicks"),
 )
 def main_df(a):
     return get_tbl(df.sort_index(ascending=False))
 
+
 ############## Original Income Table Preview ################
 
+
 @app.callback(
-    Output('income-tbl',"children"),
+    Output("income-tbl", "children"),
     Input("submit-e", "n_clicks"),
 )
 def main_df(a):
     return get_tbl(df_income.sort_index(ascending=False))
+
+
+############## Original Income Table Preview ################
+@app.callback(
+    Output("budget-preview", "is_open"),
+    [Input("see-budget-button", "n_clicks")],
+    [State("budget-preview", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
 
 
 

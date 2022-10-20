@@ -1,4 +1,6 @@
 entry_date,account,source,amount
-2022-10-20,IBBL-1,Salary,1222
-2022-10-20,IBBL-1,Salary,1222
-2022-10-20,Cash Out,Salary,3000
+2022-10-20,Cash Out,Gifts,4
+2022-10-20,SCB,Salary,2000
+2022-10-20,SCB,Salary,2000
+2022-10-20,Cash Out,Salary,2000
+2022-10-20,Cash Out,Salary,2000
