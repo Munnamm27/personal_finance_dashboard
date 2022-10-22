@@ -37,8 +37,8 @@ app.layout = dbc.Container(
         dbc.Tabs(
             [
                 dbc.Tab(
-                    tc.input_tab,
-                    label="Input Panel",
+                    tc.analysis_tab_current,
+                    label="Analysis",
                     active_label_style={
                         "backgroundColor": "#ffe9fb",
                         "fontWeight": "bold",
@@ -46,8 +46,8 @@ app.layout = dbc.Container(
                     },
                 ),
                 dbc.Tab(
-                    tc.analysis_tab_current,
-                    label="Analysis",
+                    tc.input_tab,
+                    label="Input Panel",
                     active_label_style={
                         "backgroundColor": "#ffe9fb",
                         "fontWeight": "bold",

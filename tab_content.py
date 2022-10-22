@@ -224,7 +224,52 @@ card_row=dbc.Col([
     ],align='center',justify='center'
 )],style=stl.section)
 
+###########temp var############
+label=['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen',"Carbon",'Oxaygen','Hydroagen','Carboan_Dioxide','Nitraogen',"Caarbon",'e']
+values=[4500,2500,1053,500,200,4500,2500,1053,500,200,900]
 
 
+figure_row_1=dbc.Row( 
+    [ 
+        dbc.Col(
+            [   html.H6("Top Spending Sectors",className='mb-3'),
+                html.Small("Select Range"),
+                dcc.RangeSlider(1, 15, 1, value=[2, 10], id='top_dector',marks=None,tooltip={"placement": "left", "always_visible": True}),
+                dcc.Graph(figure=graphs.get_pie(label,values))],md=5,style=stl.section
+            ),
+        dbc.Col(
+            [   html.H6("Top Spending Products",className='mb-3'),
+                html.Small("Select Range"),
+                dcc.RangeSlider(1, 15, 1, value=[2, 10], id='top_product',marks=None,tooltip={"placement": "left", "always_visible": True}),
+                dcc.Graph(figure=graphs.get_pie(label,values))],md=6,style=stl.section
+            ),
 
-analysis_tab_current=card_row
+    ],align='center',justify='center'
+)
+
+figure_row_2=dbc.Row( 
+    [ 
+
+        dbc.Col(
+            [   html.H6("Top Spending Products for Selected Sector",className='mb-3 font-bold'),
+                html.Small("Select Sector"),
+                dcc.Dropdown(options=dlist.category,placeholder='Select Sector',className='mb-1'),
+                dcc.Graph(figure=graphs.get_bar(label,values))],md=5,style=stl.section
+            ),
+            dbc.Col([html.H6("Daily Spending Trend",className='mb-3'),
+                dcc.Graph(figure=graphs.get_trend(label,values,values))],md=6,style=stl.section),
+
+    ],align='center',justify='center'
+)
+
+
+figure_row_3=dbc.Row( 
+    [ 
+        dbc.Col(dcc.Graph(figure=graphs.get_budget_bar(label,values,values)),md=6,style=stl.section),
+        dbc.Col(dcc.Graph(),md=5,style=stl.section),
+
+    ],align='center',justify='center'
+)
+
+
+analysis_tab_current=[card_row,figure_row_1,figure_row_2,figure_row_3]
