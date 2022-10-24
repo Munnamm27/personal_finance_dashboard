@@ -68,10 +68,6 @@ def get_card(account,ammount,src):
                                 html.H6(f'{ammount}'+" "+"TK",
                                     className="card-text",
                                 ),
-                                # html.Small(
-                                #     "Last updated 3 mins ago",
-                                #     className="card-text text-muted",
-                                # ),
                             ]
                         ),
                         className="col-md-8",
@@ -143,8 +139,8 @@ def get_budget_bar(product_name,budget,actual):
         color='red',
         line=dict(color='red', width=1)
     )))
-    fig.update_layout(margin=dict(l=0, r=40, t=40, b=0), xaxis_title="Cost in TK",barmode='group',
-    yaxis_title="Product Name",legend=dict(
+    fig.update_layout(margin=dict(l=0, r=40, t=40, b=0), xaxis_title="Product Name",barmode='group',
+    yaxis_title="Expense in TK",legend=dict(
     orientation="h",
     yanchor="bottom",
     y=1.02,

@@ -22,11 +22,10 @@ Hidden Budget Input:
  2. Available Balance in Bank A/C - Card
  3. Available Balance in Cash - Card
  4. Others Credits - Card
- 4. Top Spending Sector - Dognut
- 5. Top Spending Product - Dognut
- 6. Top Spendig Product with Sector filter - Bar
- 7. Daily Spending Trend - LineBar
-
+ 4. Top Spending Sector - Dognut - slider filter
+ 5. Top Spending Product - Dognut - slider filter
+ 6. Top Spendig Product with Sector filter(Slider) - Bar
+ 7. Daily Spending Trend - LineBar -
 
  Budget Alert
  --------------------------

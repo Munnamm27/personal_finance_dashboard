@@ -12,10 +12,7 @@ import graphs
 import dataloader as dl
 
 
-
-
 ########### TAB INPUT ##################################
-
 
 
 expense_col = dbc.Col(
@@ -23,7 +20,10 @@ expense_col = dbc.Col(
         html.H3("Expense Section"),
         html.H6("Category"),
         dcc.Dropdown(
-            id="category", options=dlist.category, placeholder="Enter Category", style=stl.inp
+            id="category",
+            options=dlist.category,
+            placeholder="Enter Category",
+            style=stl.inp,
         ),
         html.H6("Product"),
         dcc.Input(
@@ -140,22 +140,28 @@ budget_col = dbc.Col(
 )
 
 budget_preview = dbc.Row(
-    [   
+    [
         dbc.Col(
-        dbc.Button(
-            "See Budgets",
-            id="see-budget-button",
-            className="mb-3",
-            color="primary",
-            n_clicks=0,
-        ),md=2),
+            dbc.Button(
+                "See Budgets",
+                id="see-budget-button",
+                className="mb-3",
+                color="primary",
+                n_clicks=0,
+            ),
+            md=2,
+        ),
         dbc.Col(
-        dbc.Collapse(
-            html.Div(graphs.get_small_tbl(dl.df_budget)),
-            id="budget-preview",
-            is_open=False,
-        ),md=6),
-    ],align='left',justify='center'
+            dbc.Collapse(
+                html.Div(graphs.get_small_tbl(dl.df_budget)),
+                id="budget-preview",
+                is_open=False,
+            ),
+            md=6,
+        ),
+    ],
+    align="left",
+    justify="center",
 )
 
 preview_col = dbc.Col(
@@ -186,12 +192,10 @@ preview_col = dbc.Col(
             ],
             style=stl.section,
         ),
-
-    budget_preview
+        budget_preview,
     ],
     width={"size": 8, "offset": 0, "order": 2},
 )
-
 
 
 input_tab = dbc.Row(
@@ -201,7 +205,6 @@ input_tab = dbc.Row(
             width={"size": 3, "offset": 0, "order": 1},
         ),
         preview_col,
-        
     ],
     align="left",
     justify="center",
@@ -210,66 +213,158 @@ input_tab = dbc.Row(
 ######################################### TAB Vis ###########################################
 
 
-card_row=dbc.Col([
-    html.H6("Balance Status",className='text-center'),
-    dbc.Row( 
-    [   
-        dbc.Col(graphs.get_card("Spent",7000,'assets/dollar.png'),md=2,style=stl.section_card),
-        dbc.Col(graphs.get_card("Available",7000,'assets/tk_logo_1.jpeg'),md=2,style=stl.section_card),
-        dbc.Col(graphs.get_card("Bank 1",7000,'assets/scb.png'),md=2,style=stl.section_card),
-        dbc.Col(graphs.get_card("Bank 2",7000,'assets/ibbl.png'),md=2,style=stl.section_card),
-        dbc.Col(graphs.get_card("Cash",7000,'assets/cash_in_hand.png'),md=2,style=stl.section_card),         
-
-
-    ],align='center',justify='center'
-)],style=stl.section)
+card_row = dbc.Col(
+    [
+        html.H6("Balance Status", className="text-center"),
+        dbc.Row(
+            [
+                dbc.Col(
+                    graphs.get_card("Spent", 7000, "assets/dollar.png"),
+                    md=2,
+                    style=stl.section_card,
+                ),
+                dbc.Col(
+                    graphs.get_card("Available", 7000, "assets/tk_logo_1.jpeg"),
+                    md=2,
+                    style=stl.section_card,
+                ),
+                dbc.Col(
+                    graphs.get_card("Bank 1", 7000, "assets/scb.png"),
+                    md=2,
+                    style=stl.section_card,
+                ),
+                dbc.Col(
+                    graphs.get_card("Bank 2", 7000, "assets/ibbl.png"),
+                    md=2,
+                    style=stl.section_card,
+                ),
+                dbc.Col(
+                    graphs.get_card("Cash", 7000, "assets/cash_in_hand.png"),
+                    md=2,
+                    style=stl.section_card,
+                ),
+            ],
+            align="center",
+            justify="center",
+        ),
+    ],
+    style=stl.section,
+)
 
 ###########temp var############
-label=['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen',"Carbon",'Oxaygen','Hydroagen','Carboan_Dioxide','Nitraogen',"Caarbon",'e']
-values=[4500,2500,1053,500,200,4500,2500,1053,500,200,900]
+label = [
+    "Oxygen",
+    "Hydrogen",
+    "Carbon_Dioxide",
+    "Nitrogen",
+    "Carbon",
+    "Oxaygen",
+    "Hydroagen",
+    "Carboan_Dioxide",
+    "Nitraogen",
+    "Caarbon",
+    "e",
+]
+values = [4500, 2500, 1053, 500, 200, 4500, 2500, 1053, 500, 200, 900]
 
 
-figure_row_1=dbc.Row( 
-    [ 
+figure_row_1 = dbc.Row(
+    [
         dbc.Col(
-            [   html.H6("Top Spending Sectors",className='mb-3'),
+            [
+                html.H6("Top Spending Sectors", className="mb-3"),
                 html.Small("Select Range"),
-                dcc.RangeSlider(1, 15, 1, value=[2, 10], id='top_dector',marks=None,tooltip={"placement": "left", "always_visible": True}),
-                dcc.Graph(figure=graphs.get_pie(label,values))],md=5,style=stl.section
-            ),
+                dcc.RangeSlider(
+                    1,
+                    15,
+                    1,
+                    value=[2, 10],
+                    id="top_dector",
+                    marks=None,
+                    tooltip={"placement": "left", "always_visible": True},
+                ),
+                dcc.Graph(figure=graphs.get_pie(label, values)),
+            ],
+            md=5,
+            style=stl.section,
+        ),
         dbc.Col(
-            [   html.H6("Top Spending Products",className='mb-3'),
+            [
+                html.H6("Top Spending Products", className="mb-3"),
                 html.Small("Select Range"),
-                dcc.RangeSlider(1, 15, 1, value=[2, 10], id='top_product',marks=None,tooltip={"placement": "left", "always_visible": True}),
-                dcc.Graph(figure=graphs.get_pie(label,values))],md=6,style=stl.section
-            ),
-
-    ],align='center',justify='center'
+                dcc.RangeSlider(
+                    1,
+                    15,
+                    1,
+                    value=[2, 10],
+                    id="top_product",
+                    marks=None,
+                    tooltip={"placement": "left", "always_visible": True},
+                ),
+                dcc.Graph(figure=graphs.get_pie(label, values)),
+            ],
+            md=6,
+            style=stl.section,
+        ),
+    ],
+    align="center",
+    justify="center",
 )
 
-figure_row_2=dbc.Row( 
-    [ 
-
+figure_row_2 = dbc.Row(
+    [
         dbc.Col(
-            [   html.H6("Top Spending Products for Selected Sector",className='mb-3 font-bold'),
-                html.Small("Select Sector"),
-                dcc.Dropdown(options=dlist.category,placeholder='Select Sector',className='mb-1'),
-                dcc.Graph(figure=graphs.get_bar(label,values))],md=5,style=stl.section
-            ),
-            dbc.Col([html.H6("Daily Spending Trend",className='mb-3'),
-                dcc.Graph(figure=graphs.get_trend(label,values,values))],md=6,style=stl.section),
-
-    ],align='center',justify='center'
+            [
+                html.H6(
+                    "Top Spending Products for Selected Sector",
+                    className="mb-3 font-bold",
+                ),
+                # html.Small("Select Sector"),
+                dcc.Dropdown(
+                    options=dlist.category,
+                    placeholder="Select Sector",
+                    className="mb-1",
+                ),
+                dcc.Graph(figure=graphs.get_bar(label, values)),
+            ],
+            md=5,
+            style=stl.section,
+        ),
+        dbc.Col(
+            [
+                html.H6("Daily Spending Trend", className="mb-3"),
+                dcc.Graph(figure=graphs.get_trend(label, values, values)),
+            ],
+            md=6,
+            style=stl.section,
+        ),
+    ],
+    align="center",
+    justify="center",
 )
 
 
-figure_row_3=dbc.Row( 
-    [ 
-        dbc.Col(dcc.Graph(figure=graphs.get_budget_bar(label,values,values)),md=6,style=stl.section),
-        dbc.Col(dcc.Graph(),md=5,style=stl.section),
-
-    ],align='center',justify='center'
+figure_row_3 = dbc.Row(
+    [
+        dbc.Col(
+            [   html.H6("Budget and Expense", className="mb-3"),
+                dcc.Graph(figure=graphs.get_budget_bar(label, values, values))],
+            md=6,
+            style=stl.section,
+        ),
+        dbc.Col([
+            html.H5("Bill Payment Status",className='text-center'),
+            html.Br(),
+            html.Br(),
+            html.Div([html.H6("abc"),'']),
+            html.Div(),
+            html.Div(),
+            html.Div(),
+        ], md=5, style=stl.section),
+    ],
+    align="center",
+    justify="center",
 )
 
 
-analysis_tab_current=[card_row,figure_row_1,figure_row_2,figure_row_3]
+analysis_tab_current = [card_row, figure_row_1, figure_row_2, figure_row_3]
