@@ -272,7 +272,7 @@ figure_row_1 = dbc.Row(
     [
         dbc.Col(
             [
-                html.H6("Top Spending Sectors", className="mb-3"),
+                html.H4("Top Spending Sectors", className="mb-3"),
                 html.Small("Select Range"),
                 dcc.RangeSlider(
                     1,
@@ -290,7 +290,7 @@ figure_row_1 = dbc.Row(
         ),
         dbc.Col(
             [
-                html.H6("Top Spending Products", className="mb-3"),
+                html.H4("Top Spending Products", className="mb-3"),
                 html.Small("Select Range"),
                 dcc.RangeSlider(
                     1,
@@ -315,7 +315,7 @@ figure_row_2 = dbc.Row(
     [
         dbc.Col(
             [
-                html.H6(
+                html.H4(
                     "Top Spending Products for Selected Sector",
                     className="mb-3 font-bold",
                 ),
@@ -332,14 +332,14 @@ figure_row_2 = dbc.Row(
         ),
         dbc.Col(
             [
-                html.H6("Daily Spending Trend", className="mb-3"),
+                html.H4("Daily Spending Trend", className="mb-3"),
                 dcc.Graph(figure=graphs.get_trend(label, values, values)),
             ],
             md=6,
             style=stl.section,
         ),
     ],
-    align="center",
+    align="left",
     justify="center",
 )
 
@@ -347,22 +347,24 @@ figure_row_2 = dbc.Row(
 figure_row_3 = dbc.Row(
     [
         dbc.Col(
-            [   html.H6("Budget and Expense", className="mb-3"),
+            [   html.H4("Budget and Expense", className="mb-3"),
                 dcc.Graph(figure=graphs.get_budget_bar(label, values, values))],
             md=6,
             style=stl.section,
         ),
         dbc.Col([
-            html.H5("Bill Payment Status",className='text-center'),
+            html.H2("Bill Payment Status",className='text-center bg-info',style=stl.section),
             html.Br(),
             html.Br(),
-            html.Div([html.H6("abc"),'']),
-            html.Div(),
-            html.Div(),
-            html.Div(),
+            html.Div([html.H4("Home Rent ✅")],style={'textAlign':'left','marginLeft':'170px'}),
+            html.Div([html.H4("Internet Bill ✅")],style={'textAlign':'left','marginLeft':'170px'}),
+            html.Div([html.H4("Bua Bill ✅")],style={'textAlign':'left','marginLeft':'170px'}),
+            html.Div([html.H4("Bike Parking Rent ❌")],style={'textAlign':'left','marginLeft':'170px'}),
+            html.Div([html.H4("Electricity Bill ❌")],style={'textAlign':'left','marginLeft':'170px'}),
+
         ], md=5, style=stl.section),
     ],
-    align="center",
+    align="left",
     justify="center",
 )
 
