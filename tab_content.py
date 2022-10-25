@@ -58,7 +58,7 @@ income_col = dbc.Col(
         html.H6("Account"),
         dcc.Dropdown(
             id="account",
-            options=["IBBL-1", "IBBL-2", "SCB", "Cash Out"],
+            options=["IBBL", "SCB", "Cash Out"],
             placeholder="Select Account",
             style=stl.inp,
         ),
@@ -219,27 +219,27 @@ card_row = dbc.Col(
         dbc.Row(
             [
                 dbc.Col(
-                    graphs.get_card("Spent", 7000, "assets/dollar.png"),
+                    graphs.get_card("Spent", dl.spent_amount, "assets/dollar.png"),
                     md=2,
                     style=stl.section_card,
                 ),
                 dbc.Col(
-                    graphs.get_card("Available", 7000, "assets/tk_logo_1.jpeg"),
+                    graphs.get_card("Available", dl.available, "assets/tk_logo_1.jpeg"),
                     md=2,
                     style=stl.section_card,
                 ),
                 dbc.Col(
-                    graphs.get_card("Bank 1", 7000, "assets/scb.png"),
+                    graphs.get_card("Bank 1", dl.bank_scb, "assets/scb.png"),
                     md=2,
                     style=stl.section_card,
                 ),
                 dbc.Col(
-                    graphs.get_card("Bank 2", 7000, "assets/ibbl.png"),
+                    graphs.get_card("Bank 2", dl.bank_ib, "assets/ibbl.png"),
                     md=2,
                     style=stl.section_card,
                 ),
                 dbc.Col(
-                    graphs.get_card("Cash", 7000, "assets/cash_in_hand.png"),
+                    graphs.get_card("Cash", dl.total_cash, "assets/cash_in_hand.png"),
                     md=2,
                     style=stl.section_card,
                 ),
@@ -279,11 +279,11 @@ figure_row_1 = dbc.Row(
                     15,
                     1,
                     value=[2, 10],
-                    id="top_dector",
+                    id="top_cat",
                     marks=None,
                     tooltip={"placement": "left", "always_visible": True},
                 ),
-                dcc.Graph(figure=graphs.get_pie(label, values)),
+                dcc.Graph(id='cat_pie'),
             ],
             md=5,
             style=stl.section,
@@ -301,7 +301,7 @@ figure_row_1 = dbc.Row(
                     marks=None,
                     tooltip={"placement": "left", "always_visible": True},
                 ),
-                dcc.Graph(figure=graphs.get_pie(label, values)),
+                dcc.Graph(id='prod_pie'),
             ],
             md=6,
             style=stl.section,
@@ -310,6 +310,9 @@ figure_row_1 = dbc.Row(
     align="center",
     justify="center",
 )
+
+#####trend variables##
+trend_l,trend_v=dl.get_date_arrays(dl.df)
 
 figure_row_2 = dbc.Row(
     [
@@ -321,11 +324,13 @@ figure_row_2 = dbc.Row(
                 ),
                 # html.Small("Select Sector"),
                 dcc.Dropdown(
-                    options=dlist.category,
+                    options=dl.category,
                     placeholder="Select Sector",
                     className="mb-1",
+                    id='cat',
+                    value='Bike'
                 ),
-                dcc.Graph(figure=graphs.get_bar(label, values)),
+                dcc.Graph(id='bar'),
             ],
             md=5,
             style=stl.section,
@@ -333,7 +338,7 @@ figure_row_2 = dbc.Row(
         dbc.Col(
             [
                 html.H4("Daily Spending Trend", className="mb-3"),
-                dcc.Graph(figure=graphs.get_trend(label, values, values)),
+                dcc.Graph(figure=graphs.get_trend(trend_v, values)),
             ],
             md=6,
             style=stl.section,
@@ -342,6 +347,8 @@ figure_row_2 = dbc.Row(
     align="left",
     justify="center",
 )
+
+
 
 
 figure_row_3 = dbc.Row(

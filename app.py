@@ -1,3 +1,4 @@
+from ast import In
 import dash
 from dash import dcc, html, dash_table, callback_context, Input, Output, State, ctx
 import dash_bootstrap_components as dbc
@@ -18,6 +19,17 @@ final_inp = pd.DataFrame()
 date_ = date.today()
 final_inp_e = pd.DataFrame()
 final_inp_b = pd.DataFrame()
+
+def date_spliter(data):
+    data['month']=data['entry_date'].apply(lambda x: int(x.split('-')[1]))
+    data['date']=data['entry_date'].apply(lambda x: int(x.split('-')[2]))
+    data['year']=data['entry_date'].apply(lambda x: int(x.split('-')[0]))
+    
+date_spliter(df)
+date_spliter(df_income)
+
+
+
 
 
 app = dash.Dash(
@@ -240,7 +252,7 @@ def write(
     Input("submit-i", "n_clicks"),
 )
 def main_df(a):
-    return gs.get_tbl(df.sort_index(ascending=False))
+    return gs.get_tbl(df[['entry_date','category','product','cost']].sort_index(ascending=False))
 
 
 ############## Original Income Table Preview ################
@@ -251,10 +263,11 @@ def main_df(a):
     Input("submit-e", "n_clicks"),
 )
 def main_df(a):
-    return gs.get_tbl(df_income.sort_index(ascending=False))
+    df_income[['entry_date','account','source','amount']]
+    return gs.get_tbl(df_income[['entry_date','account','source','amount']].sort_index(ascending=False))
 
 
-############## Original Income Table Preview ################
+############## Original Budget Table Preview ################
 @app.callback(
     Output("budget-preview", "is_open"),
     [Input("see-budget-button", "n_clicks")],
@@ -264,6 +277,53 @@ def toggle_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
+
+
+
+#####Pie Callbacks#####
+
+@app.callback(
+    Output('cat_pie','figure'),
+    Input('top_cat','value')
+)
+
+def pie (range):
+    # df = pd.read_csv("expense.csv")
+    # date_splitter(df)
+    data=df[df["month"]==dl.current_month]
+    start=range[0]
+    end=range[1]
+    l,v=dl.get_range_arrays_pie(data,'category',start=start,end=end)
+    return gs.get_pie(l,v)
+
+
+@app.callback(
+    Output('prod_pie','figure'),
+    Input('top_product','value')
+)
+
+def pie (range):
+    # df = pd.read_csv("expense.csv")
+    # date_splitter(df)
+    data=df[df["month"]==dl.current_month]
+    start=range[0]
+    end=range[1]
+    l,v=dl.get_range_arrays_pie(data,'product',start=start,end=end)
+    return gs.get_pie(l,v)
+
+
+######BAR and Trend#####
+
+@app.callback(
+    Output('bar','figure'),
+    Input('cat','value')
+)
+def bar(cat):
+    data=df[(df["month"]==dl.current_month) & (df["category"]==cat)]
+    l,v=dl.get_range_arrays_bar(data)
+    return gs.get_bar(l,v)
+
+     
 
 
 if __name__ == "__main__":

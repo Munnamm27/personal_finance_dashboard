@@ -110,12 +110,12 @@ def get_bar(label,values):
     return fig
 
 
-def get_trend(day,spend,balance):
+def get_trend(spend,balance):
     fig=go.Figure()
-    fig.add_trace(go.Scatter(x=day, y=spend,
+    fig.add_trace(go.Scatter(x=list(range(1,31)), y=spend,
                         mode='lines+markers',
                         name='Spent Money'))
-    fig.add_trace(go.Scatter(x=day, y=balance,
+    fig.add_trace(go.Scatter(x=list(range(1,31)), y=balance,
                         mode='lines+markers',
                         name='Available Balance'))
     fig.update_layout(margin=dict(l=0, r=45, t=30, b=0), xaxis_title="Date",
