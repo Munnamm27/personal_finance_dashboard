@@ -1,21 +1,24 @@
-entry_date,category,product,cost
-2022-10-20,12,12,121.0
-2022-10-20,Food,Lunch,110.0
-2022-10-20,Food,Chocolate,70.0
-2022-10-20,Food,Ice Cream,70.0
-2022-10-20,Bike,Fuel,120.0
-2022-10-20,Bike,Servicing,400.0
-2022-10-20,Transport,Rickshaw,70.0
-2022-10-20,Cloths,Jersey,2000.0
-2022-10-20,Bike,12,122.0
-2022-10-20,Bike,12,122.0
-2022-10-20,Cloths,,
-2022-10-20,Cloths,,
-2022-10-20,Bills,Electricity,500.0
-2022-10-25,House,Rent,100000.0
-2022-10-25,Untracked,Not Specified,5000.0
-2022-10-25,Gifts,SSL ,600.0
-2022-10-25,Food,Ice Cream,70.0
-2022-10-25,Food,Ice Cream,200.0
-2022-10-25,Toiletry,Hand Wash,160.0
-2022-10-25,Bike,Engine Oil,950.0
+entry_date,category,product,cost,month,date,year
+2022-10-20,12,12,121.0,10.0,20.0,2022.0
+2022-10-20,Food,Lunch,110.0,10.0,20.0,2022.0
+2022-10-20,Food,Chocolate,70.0,10.0,20.0,2022.0
+2022-10-20,Food,Ice Cream,70.0,10.0,20.0,2022.0
+2022-10-20,Bike,Fuel,120.0,10.0,20.0,2022.0
+2022-10-20,Bike,Servicing,400.0,10.0,20.0,2022.0
+2022-10-20,Transport,Rickshaw,70.0,10.0,20.0,2022.0
+2022-10-20,Cloths,Jersey,2000.0,10.0,20.0,2022.0
+2022-10-20,Bike,12,122.0,10.0,20.0,2022.0
+2022-10-20,Bike,12,122.0,10.0,20.0,2022.0
+2022-10-20,Cloths,,,10.0,20.0,2022.0
+2022-10-20,Cloths,,,10.0,20.0,2022.0
+2022-10-20,Bills,Electricity,500.0,10.0,20.0,2022.0
+2022-10-25,House,Rent,100000.0,10.0,25.0,2022.0
+2022-10-25,Untracked,Not Specified,5000.0,10.0,25.0,2022.0
+2022-10-25,Gifts,SSL ,600.0,10.0,25.0,2022.0
+2022-10-25,Food,Ice Cream,70.0,10.0,25.0,2022.0
+2022-10-25,Food,Ice Cream,200.0,10.0,25.0,2022.0
+2022-10-25,Toiletry,Hand Wash,160.0,10.0,25.0,2022.0
+2022-10-25,Bike,Engine Oil,950.0,10.0,25.0,2022.0
+2022-10-25,Health,Medicine,1500.0,10.0,25.0,2022.0
+2022-10-25,Bike,Headlight,500.0,10.0,25.0,2022.0
+2022-10-26,Eating Out,Nan Grill,270.0,,,

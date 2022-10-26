@@ -58,10 +58,10 @@ bank_2=int(df_income[df_income['account']=='IBBL'].amount.sum())
 cash_scb=int(df_income[(df_income['account']=='Cash Out') & (df_income['source']=='Salary')].amount.sum())
 cash_ib=int(df_income[(df_income['account']=='Cash Out') & (df_income['source']=='Abbu')].amount.sum())
 cash_gift=int(df_income[(df_income['account']=='Cash Out') & (df_income['source']=='Gift')].amount.sum())
-total_cash=cash_scb+cash_ib+cash_gift
+total_cash=cash_scb+cash_ib+cash_gift-spent_amount
 bank_scb=bank_1-cash_scb
 bank_ib=bank_2-cash_ib
-available=(total_cash+bank_scb+bank_ib)-spent_amount
+available=(total_cash+bank_scb+bank_ib)
 
 
 
